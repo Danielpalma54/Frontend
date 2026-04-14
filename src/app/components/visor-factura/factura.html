@@ -1,0 +1,114 @@
+<div class="page">
+  <header class="top-header">
+    <div class="header-inner">
+      <img src="assets/LOGO.jfif" alt="Logo empresa" class="brand-logo" />
+
+      <button class="login-btn" type="button" (click)="abrirLogin()">
+        Iniciar Sesión
+      </button>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <section class="card-container">
+      <div class="invoice-header">
+        <div class="invoice-title-box">
+          <h1>Factura {{ factura?.numero || facturaId }}</h1>
+
+          <span class="status-badge" *ngIf="factura?.estado">
+            <span class="status-dot">●</span>
+            {{ factura?.estado }}
+          </span>
+        </div>
+      </div>
+
+      <div *ngIf="cargando" class="loading-box">
+        Cargando comprobante...
+      </div>
+
+      <div *ngIf="error && !cargando" class="error-box">
+        <p>{{ error }}</p>
+        <button type="button" (click)="reintentar()">Reintentar</button>
+      </div>
+
+      <div *ngIf="!cargando && !error && factura" class="invoice-body">  
+        <div class="info-section">
+          <p class="info-line">
+            <strong>Emisor:</strong> {{ factura.emisor }}
+            <span class="divider">|</span>
+            <span><strong>RUC:</strong> {{ factura.ruc }}</span>
+            <ng-container *ngIf="factura.nombreComercial">
+              <span class="divider">|</span>
+              <span><strong>Nombre Comercial:</strong> {{ factura.nombreComercial }}</span>
+            </ng-container>
+          </p>
+
+          <p class="info-line">
+            <strong>Receptor:</strong> {{ factura.receptor }}
+            <span class="divider">|</span>
+            <span><strong>Correo:</strong> {{ factura.correo }}</span>
+            <span class="divider">|</span>
+            <span><strong>Fecha Emisión:</strong> {{ factura.fechaEmision }}</span>
+          </p>
+        </div>
+
+        <div class="actions-section">
+          <button
+            type="button"
+            class="download-btn"
+            (click)="descargarPdf()"
+            [disabled]="!pdfSrc">
+            <span class="btn-icon pdf-icon">📄</span>
+            Descargar PDF (RIDE)
+          </button>
+
+          <button
+            type="button"
+            class="download-btn"
+            (click)="descargarXml()"
+            [disabled]="!xmlBlobUrl">
+            <span class="btn-icon xml-icon">📁</span>
+            Descargar XML
+          </button>
+        </div>
+
+        <div class="pdf-viewer-box" *ngIf="pdfSrc; else noPdf">
+          <ngx-extended-pdf-viewer
+            [src]="pdfSrc"
+            [height]="'740px'"
+            [showToolbar]="true"
+            [showSidebarButton]="true"
+            [showFindButton]="true"
+            [showPagingButtons]="true"
+            [showZoomButtons]="true"
+            [showPresentationModeButton]="true"
+            [showOpenFileButton]="false"
+            [showDownloadButton]="false"
+            [showPrintButton]="true"
+            [textLayer]="true">
+          </ngx-extended-pdf-viewer>
+        </div>
+
+        <ng-template #noPdf>
+          <div class="empty-pdf">
+            No se recibió PDF para mostrar.
+          </div>
+        </ng-template>
+
+        <div class="portal-card">
+          <div class="portal-left">
+            <img src="assets/LOGO.jfif" alt="Logo empresa" class="portal-logo" />
+
+            <div class="portal-title">
+              Accede al historial de tus comprobantes recibidos
+            </div>
+          </div>
+
+          <button class="portal-btn" type="button" (click)="abrirPortal()">
+            Acceder al Portal
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
