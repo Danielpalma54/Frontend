@@ -48,33 +48,33 @@
       <div *ngIf="!cargando && !error && factura" class="px-[22px] pb-[22px] pt-[18px]">
         <div class="mb-[14px] border-b border-[#e5e7eb] pb-[13px]">
           <p class="my-[6px] text-[15px] leading-[1.6]">
-            <strong class="font-semibold text-[#1f2937]">Emisor:</strong>
-            <span class="font-medium text-[#1f2937]">{{ factura.emisor }}</span>
+            <strong class="font-bold text-[#080808]">Emisor:</strong>
+            <span class="font-bold text-[#080808]">{{ factura.emisor }}</span>
 
             <span class="mx-[6px] text-[#9ca3af]">|</span>
 
-            <strong class="font-medium text-[#6b7280]">RUC:</strong>
+            <strong class="font-normal text-[#6b7280]">RUC:</strong>
             <span class="font-normal text-[#6b7280]">{{ factura.ruc }}</span>
 
             <ng-container *ngIf="factura.nombreComercial">
               <span class="mx-[6px] text-[#9ca3af]">|</span>
-              <strong class="font-medium text-[#6b7280]">Nombre Comercial:</strong>
+              <strong class="font-normal text-[#6b7280]">Nombre Comercial:</strong>
               <span class="font-normal text-[#6b7280]">{{ factura.nombreComercial }}</span>
             </ng-container>
           </p>
 
           <p class="my-[6px] text-[15px] leading-[1.6]">
-            <strong class="font-semibold text-[#1f2937]">Receptor:</strong>
-            <span class="font-medium text-[#1f2937]">{{ factura.receptor }}</span>
+            <strong class="font-bold text-[#080808]">Receptor:</strong>
+            <span class="font-bold text-[#080808]">{{ factura.receptor }}</span>
 
             <span class="mx-[6px] text-[#9ca3af]">|</span>
 
-            <strong class="font-medium text-[#6b7280]">Correo:</strong>
+            <strong class="font-normal text-[#6b7280]">Correo:</strong>
             <span class="font-normal text-[#6b7280]">{{ factura.correo }}</span>
 
             <span class="mx-[6px] text-[#9ca3af]">|</span>
 
-            <strong class="font-medium text-[#6b7280]">Fecha Emisión:</strong>
+            <strong class="font-normal text-[#6b7280]">Fecha Emisión:</strong>
             <span class="font-normal text-[#6b7280]">{{ factura.fechaEmision }}</span>
           </p>
         </div>

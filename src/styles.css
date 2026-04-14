@@ -12,7 +12,6 @@ body {
   background: #f3f3f3;
 }
 
-
 ngx-extended-pdf-viewer {
   --body-bg-color: #767b8c;
   --toolbar-bg-color: #666b79;
@@ -64,9 +63,9 @@ ngx-extended-pdf-viewer svg use,
 ngx-extended-pdf-viewer .toolbar svg,
 ngx-extended-pdf-viewer .toolbar svg path,
 ngx-extended-pdf-viewer .toolbar svg use {
-  fill: #eef2fd  !important;
-  color: #eef2fd  !important;
-  stroke: #eef2fd  !important;
+  fill: #d1d5db   !important;
+  color: #d1d5db   !important;
+  stroke: #d1d5db   !important;
   opacity: 1 !important;
 }
 
@@ -100,4 +99,15 @@ ngx-extended-pdf-viewer .page {
 
 ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
   background: #8b90a0;
+}
+
+ngx-extended-pdf-viewer #secondaryToolbar,
+ngx-extended-pdf-viewer .secondaryToolbar {
+  background-color: #5e626e !important;
+  color: #ffffff !important;
+}
+
+ngx-extended-pdf-viewer .secondaryToolbar button,
+ngx-extended-pdf-viewer .secondaryToolbar span {
+  color: #ffffff !important;
 }
