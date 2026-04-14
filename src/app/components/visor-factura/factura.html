@@ -1,101 +1,105 @@
-<div class="page">
-  <header class="top-header">
-    <div class="header-inner">
-      <img src="assets/LOGO.jfif" alt="Logo empresa" class="brand-logo" />
+<div class="min-h-screen bg-[#f3f3f3]">
+  <header class="w-full border-b border-[#e4e6ea] bg-white">
+    <div class="mx-auto flex min-h-[92px] max-w-[1366px] items-center justify-between px-[18px]">
+      <img src="assets/LOGO.png" alt="Logo empresa" class="block h-[62px] w-auto object-contain" />
 
-      <button class="login-btn" type="button" (click)="abrirLogin()">
+      <button
+        type="button"
+        (click)="abrirLogin()"
+        class="h-[38px] min-w-[181px] rounded-[10px] border-0 bg-[#0867cf] px-5 text-[15px] font-semibold text-white">
         Iniciar Sesión
       </button>
     </div>
   </header>
 
-  <main class="page-content">
-    <section class="card-container">
-      <div class="invoice-header">
-        <div class="invoice-title-box">
-          <h1>Factura {{ factura?.numero || facturaId }}</h1>
+  <main class="mx-auto mt-6 max-w-[1366px] px-[18px] pb-6">
+    <section class="overflow-hidden rounded-[12px] border border-[#d9dde2] bg-white">
+      <div class="border-b border-[#e5e7eb] px-[22px] pb-4 pt-[18px]">
+        <div class="flex flex-wrap items-center gap-[14px]">
+          <h1 class="m-0 text-[24px] font-medium leading-[1.25] text-[#111111]">
+            Factura {{ factura?.numero || facturaId }}
+          </h1>
 
-          <span class="status-badge" *ngIf="factura?.estado">
-            <span class="status-dot">●</span>
+          <span
+            *ngIf="factura?.estado"
+            class="inline-flex min-h-[32px] items-center gap-2 rounded-[10px] border border-[#c4e5c4] bg-[#dff1df] px-4 text-[16px] font-medium text-[#2d7b4b]">
+            <span class="text-[11px] leading-none">●</span>
             {{ factura?.estado }}
           </span>
         </div>
       </div>
 
-      <div *ngIf="cargando" class="loading-box">
+      <div *ngIf="cargando" class="m-[20px] rounded-[12px] bg-[#eff6ff] p-[18px] text-[16px] text-[#1d4ed8]">
         Cargando comprobante...
       </div>
 
-      <div *ngIf="error && !cargando" class="error-box">
-        <p>{{ error }}</p>
-        <button type="button" (click)="reintentar()">Reintentar</button>
+      <div
+        *ngIf="error && !cargando"
+        class="m-[20px] flex flex-wrap items-center justify-between gap-3 rounded-[12px] border border-[#fecaca] bg-[#fef2f2] p-[18px] text-[16px] text-[#b91c1c]">
+        <p class="m-0">{{ error }}</p>
+        <button
+          type="button"
+          (click)="reintentar()"
+          class="rounded-[10px] border-0 bg-[#b91c1c] px-4 py-[10px] text-white">
+          Reintentar
+        </button>
       </div>
 
-      <div *ngIf="!cargando && !error && factura" class="invoice-body">  
-        <div class="info-section">
+      <div *ngIf="!cargando && !error && factura" class="px-[22px] pb-[22px] pt-[18px]">
+        <div class="mb-[14px] border-b border-[#e5e7eb] pb-[13px]">
+          <p class="my-[6px] text-[15px] leading-[1.6]">
+            <strong class="font-semibold text-[#1f2937]">Emisor:</strong>
+            <span class="font-medium text-[#1f2937]">{{ factura.emisor }}</span>
 
-          <p class="info-line">
-            <strong class="label-main">Emisor:</strong>
-            <span class="value-main">{{ factura.emisor }}</span>
+            <span class="mx-[6px] text-[#9ca3af]">|</span>
 
-            <span class="divider">|</span>
-
-            <span>
-              <strong class="label-soft">RUC:</strong>
-              <span class="value-soft">{{ factura.ruc }}</span>
-            </span>
+            <strong class="font-medium text-[#6b7280]">RUC:</strong>
+            <span class="font-normal text-[#6b7280]">{{ factura.ruc }}</span>
 
             <ng-container *ngIf="factura.nombreComercial">
-              <span class="divider">|</span>
-              <span>
-                <strong class="label-soft">Nombre Comercial:</strong>
-                <span class="value-soft">{{ factura.nombreComercial }}</span>
-              </span>
+              <span class="mx-[6px] text-[#9ca3af]">|</span>
+              <strong class="font-medium text-[#6b7280]">Nombre Comercial:</strong>
+              <span class="font-normal text-[#6b7280]">{{ factura.nombreComercial }}</span>
             </ng-container>
           </p>
 
-          <p class="info-line">
-            <strong class="label-main">Receptor:</strong>
-            <span class="value-main">{{ factura.receptor }}</span>
+          <p class="my-[6px] text-[15px] leading-[1.6]">
+            <strong class="font-semibold text-[#1f2937]">Receptor:</strong>
+            <span class="font-medium text-[#1f2937]">{{ factura.receptor }}</span>
 
-            <span class="divider">|</span>
+            <span class="mx-[6px] text-[#9ca3af]">|</span>
 
-            <span>
-              <strong class="label-soft">Correo:</strong>
-              <span class="value-soft">{{ factura.correo }}</span>
-            </span>
+            <strong class="font-medium text-[#6b7280]">Correo:</strong>
+            <span class="font-normal text-[#6b7280]">{{ factura.correo }}</span>
 
-            <span class="divider">|</span>
+            <span class="mx-[6px] text-[#9ca3af]">|</span>
 
-            <span>
-              <strong class="label-soft">Fecha Emisión:</strong>
-              <span class="value-soft">{{ factura.fechaEmision }}</span>
-            </span>
+            <strong class="font-medium text-[#6b7280]">Fecha Emisión:</strong>
+            <span class="font-normal text-[#6b7280]">{{ factura.fechaEmision }}</span>
           </p>
-
         </div>
 
-        <div class="actions-section">
+        <div class="mb-4 flex flex-wrap gap-2">
           <button
             type="button"
-            class="download-btn"
+            class="inline-flex h-[50px] min-w-[222px] items-center justify-start gap-[10px] rounded-[10px] border border-[#d4d9df] bg-white px-[18px] text-[16px] font-medium text-[#333333] disabled:cursor-not-allowed disabled:opacity-60"
             (click)="descargarPdf()"
             [disabled]="!pdfSrc">
-            <img src="assets/iconspdf.png" class="btn-icon-img" />
+            <img src="assets/iconspdf.png" class="h-[18px] w-[18px] object-contain" />
             Descargar PDF (RIDE)
           </button>
 
           <button
             type="button"
-            class="download-btn"
+            class="inline-flex h-[50px] min-w-[222px] items-center justify-start gap-[10px] rounded-[10px] border border-[#d4d9df] bg-white px-[18px] text-[16px] font-medium text-[#333333] disabled:cursor-not-allowed disabled:opacity-60"
             (click)="descargarXml()"
             [disabled]="!xmlBlobUrl">
-            <img src="assets/iconsxml.png" class="btn-icon-img" />
+            <img src="assets/iconsxml.png" class="h-[18px] w-[18px] object-contain" />
             Descargar XML
           </button>
         </div>
 
-        <div class="pdf-viewer-box" *ngIf="pdfSrc; else noPdf">
+        <div *ngIf="pdfSrc; else noPdf" class="overflow-hidden rounded-[11px] border border-[#cfd5dd] bg-[#767b8c]">
           <ngx-extended-pdf-viewer
             [src]="pdfSrc"
             [height]="'740px'"
@@ -113,32 +117,33 @@
         </div>
 
         <ng-template #noPdf>
-          <div class="empty-pdf">
+          <div class="m-[20px] rounded-[12px] bg-[#fff7ed] p-[18px] text-[16px] text-[#9a3412]">
             No se recibió PDF para mostrar.
           </div>
         </ng-template>
 
-        <div class="portal-card">
-          <div class="portal-left">
-            <img src="assets/LOGO.jfif" alt="Logo empresa" class="portal-logo" />
+        <div class="mt-[14px] flex flex-wrap items-center justify-between gap-[18px] rounded-[12px] border border-[#d8dde3] bg-[#fafafa] px-[22px] py-[18px]">
+          <div class="flex items-center gap-[14px]">
+            <img src="assets/mini-icons.png" alt="Logo empresa" class="block h-[52px] w-auto object-contain" />
 
-            <div class="portal-text-group">
-              <div class="portal-title">
+            <div class="flex flex-col">
+              <div class="text-[17px] font-semibold leading-[1.3] text-[#1f2937]">
                 Accede al historial de tus comprobantes recibidos
               </div>
 
-              <div class="portal-subtitle">
+              <div class="mt-[6px] text-[15px] leading-[1.4] text-[#4b5563]">
                 ✅ En un clic filtrar y descargar PDF / XML cuando lo necesites
               </div>
             </div>
-
           </div>
 
-          <button class="portal-btn" type="button" (click)="abrirPortal()">
+          <button
+            class="h-[38px] min-w-[181px] rounded-[10px] border-0 bg-[#0867cf] px-5 text-[15px] font-semibold text-white"
+            type="button"
+            (click)="abrirPortal()">
             Acceder al Portal
           </button>
         </div>
-
       </div>
     </section>
   </main>

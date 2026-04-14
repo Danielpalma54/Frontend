@@ -1,8 +1,7 @@
 export const environment = {
-  production: false,
+  production: true,
   apiUrl: '',
   token: '',
-  facturaId: '',
   loginUrl: 'https://www.facturasintuitosa.com/',
   portalUrl: 'https://www.facturasintuitosa.com/'
 };

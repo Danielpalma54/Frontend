@@ -12,10 +12,6 @@ body {
   background: #f3f3f3;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f3f3f3;
-}
 
 ngx-extended-pdf-viewer {
   --body-bg-color: #767b8c;
@@ -32,8 +28,8 @@ ngx-extended-pdf-viewer .toolbarContainer,
 ngx-extended-pdf-viewer #toolbarContainer,
 ngx-extended-pdf-viewer #toolbarViewer,
 ngx-extended-pdf-viewer #toolbarViewerContainer {
-  background: #666b79 !important;
-  background-color: #666b79 !important;
+  background: #5e626e !important;
+  background-color: #5e626e !important;
   border-bottom: none !important;
 }
 
@@ -68,9 +64,9 @@ ngx-extended-pdf-viewer svg use,
 ngx-extended-pdf-viewer .toolbar svg,
 ngx-extended-pdf-viewer .toolbar svg path,
 ngx-extended-pdf-viewer .toolbar svg use {
-  fill: #e5e7eb  !important;
-  color: #e5e7eb  !important;
-  stroke: #e5e7eb  !important;
+  fill: #eef2fd  !important;
+  color: #eef2fd  !important;
+  stroke: #eef2fd  !important;
   opacity: 1 !important;
 }
 
@@ -94,8 +90,8 @@ ngx-extended-pdf-viewer #sidebarContainer,
 ngx-extended-pdf-viewer .sidebarContent,
 ngx-extended-pdf-viewer .thumbnailSidebar,
 ngx-extended-pdf-viewer #toolbarSidebar {
-  background: #767b8c !important;
-  background-color: #767b8c !important;
+  background: #6f7381 !important;
+  background-color: #6f7381 !important;
 }
 
 ngx-extended-pdf-viewer .page {

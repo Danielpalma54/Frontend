@@ -34,7 +34,6 @@ export class FacturaService {
     });
   }
 
-  // 1
   obtenerInfoFactura(id: string): Observable<FacturaInfoResponse> {
     return this.http.get<FacturaInfoResponse>(
       `${this.apiUrl}/facturas/${id}`,
@@ -42,7 +41,6 @@ export class FacturaService {
     );
   }
 
-  // 2
   obtenerDocumentosFactura(id: string): Observable<FacturaDocumentoResponse> {
     return this.http.get<FacturaDocumentoResponse>(
       `${this.apiUrl}/facturas/${id}/documentos`,

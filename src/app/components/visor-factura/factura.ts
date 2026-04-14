@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {
@@ -26,28 +27,51 @@ export class FacturaComponent implements OnInit, OnDestroy {
   pdfBlobUrl: string | null = null;
   xmlBlobUrl: string | null = null;
 
-  readonly facturaId = environment.facturaId;
   readonly loginUrl = environment.loginUrl;
   readonly portalUrl = environment.portalUrl;
 
-  constructor(private facturaService: FacturaService) {}
+  facturaId = '';
+
+  constructor(
+    private facturaService: FacturaService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.cargarFactura();
+    this.route.paramMap.subscribe(params => {
+      this.facturaId = params.get('id') || '';
+
+      if (!this.facturaId) {
+        this.error = 'No se recibió el id de la factura en la URL.';
+        this.cdr.detectChanges();
+        return;
+      }
+
+      this.cargarFactura();
+    });
   }
 
   cargarFactura(): void {
     this.cargando = true;
     this.error = '';
+    this.cdr.detectChanges();
 
     forkJoin({
       info: this.facturaService.obtenerInfoFactura(this.facturaId),
       docs: this.facturaService.obtenerDocumentosFactura(this.facturaId)
     }).subscribe({
       next: ({ info, docs }) => {
-        this.factura = info;
-        this.procesarDocumentos(docs);
-        this.cargando = false;
+        try {
+          this.factura = info;
+          this.procesarDocumentos(docs);
+        } catch (e) {
+          console.error('Error procesando documentos:', e);
+          this.error = 'El PDF recibido no es válido.';
+        } finally {
+          this.cargando = false;
+          this.cdr.detectChanges();
+        }
       },
       error: (err) => {
         console.error('Error al cargar factura:', err);
@@ -63,23 +87,36 @@ export class FacturaComponent implements OnInit, OnDestroy {
         }
 
         this.cargando = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   procesarDocumentos(docs: FacturaDocumentoResponse): void {
-    if (docs.pdfBase64) {
+    if (docs.pdfBase64 && docs.pdfBase64.trim() !== '') {
       this.pdfBlobUrl = this.base64ToBlobUrl(docs.pdfBase64, 'application/pdf');
       this.pdfSrc = this.pdfBlobUrl;
+    } else {
+      this.pdfSrc = null;
+      this.pdfBlobUrl = null;
     }
 
-    if (docs.xmlBase64) {
+    if (docs.xmlBase64 && docs.xmlBase64.trim() !== '') {
       this.xmlBlobUrl = this.base64ToBlobUrl(docs.xmlBase64, 'application/xml');
+    } else {
+      this.xmlBlobUrl = null;
     }
   }
 
   base64ToBlobUrl(base64: string, mimeType: string): string {
-    const cleanBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
+    if (!base64 || typeof base64 !== 'string') {
+      throw new Error('Base64 vacío o inválido');
+    }
+
+    const cleanBase64 = base64
+      .replace(/^data:application\/pdf;base64,/, '')
+      .replace(/^data:application\/xml;base64,/, '')
+      .replace(/\s/g, '');
 
     const byteCharacters = atob(cleanBase64);
     const byteNumbers = new Array(byteCharacters.length);
@@ -96,6 +133,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
   descargarPdf(): void {
     if (!this.pdfBlobUrl) return;
+
     this.descargarArchivo(
       this.pdfBlobUrl,
       `factura-${this.factura?.numero ?? this.facturaId}.pdf`
@@ -104,6 +142,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
   descargarXml(): void {
     if (!this.xmlBlobUrl) return;
+
     this.descargarArchivo(
       this.xmlBlobUrl,
       `factura-${this.factura?.numero ?? this.facturaId}.xml`
