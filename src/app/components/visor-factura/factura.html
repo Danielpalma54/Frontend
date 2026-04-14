@@ -33,23 +33,46 @@
 
       <div *ngIf="!cargando && !error && factura" class="invoice-body">  
         <div class="info-section">
+
           <p class="info-line">
-            <strong>Emisor:</strong> {{ factura.emisor }}
+            <strong class="label-main">Emisor:</strong>
+            <span class="value-main">{{ factura.emisor }}</span>
+
             <span class="divider">|</span>
-            <span><strong>RUC:</strong> {{ factura.ruc }}</span>
+
+            <span>
+              <strong class="label-soft">RUC:</strong>
+              <span class="value-soft">{{ factura.ruc }}</span>
+            </span>
+
             <ng-container *ngIf="factura.nombreComercial">
               <span class="divider">|</span>
-              <span><strong>Nombre Comercial:</strong> {{ factura.nombreComercial }}</span>
+              <span>
+                <strong class="label-soft">Nombre Comercial:</strong>
+                <span class="value-soft">{{ factura.nombreComercial }}</span>
+              </span>
             </ng-container>
           </p>
 
           <p class="info-line">
-            <strong>Receptor:</strong> {{ factura.receptor }}
+            <strong class="label-main">Receptor:</strong>
+            <span class="value-main">{{ factura.receptor }}</span>
+
             <span class="divider">|</span>
-            <span><strong>Correo:</strong> {{ factura.correo }}</span>
+
+            <span>
+              <strong class="label-soft">Correo:</strong>
+              <span class="value-soft">{{ factura.correo }}</span>
+            </span>
+
             <span class="divider">|</span>
-            <span><strong>Fecha Emisión:</strong> {{ factura.fechaEmision }}</span>
+
+            <span>
+              <strong class="label-soft">Fecha Emisión:</strong>
+              <span class="value-soft">{{ factura.fechaEmision }}</span>
+            </span>
           </p>
+
         </div>
 
         <div class="actions-section">
@@ -94,7 +117,6 @@
             No se recibió PDF para mostrar.
           </div>
         </ng-template>
-
 
         <div class="portal-card">
           <div class="portal-left">

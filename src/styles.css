@@ -12,3 +12,38 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: #f3f3f3;
 }
+
+ngx-extended-pdf-viewer {
+  --body-bg-color: #707588;
+  --toolbar-bg-color: #666b79;
+  --sidebar-bg-color: #707588;
+  --main-menu-bg-color: #666b79;
+  --viewer-container-height: 740px;
+}
+
+ngx-extended-pdf-viewer .toolbar {
+  background: #666b79 !important;
+}
+
+ngx-extended-pdf-viewer .pdfViewer,
+ngx-extended-pdf-viewer #viewerContainer,
+ngx-extended-pdf-viewer .mainContainer,
+ngx-extended-pdf-viewer .viewerContainer {
+  background-color: #707588 !important;
+}
+
+ngx-extended-pdf-viewer #sidebarContainer,
+ngx-extended-pdf-viewer .sidebarContent,
+ngx-extended-pdf-viewer .thumbnailSidebar {
+  background-color: #707588 !important;
+}
+
+ngx-extended-pdf-viewer .toolbarContainer {
+  background: #666b79 !important;
+  border-bottom: none !important;
+}
+
+ngx-extended-pdf-viewer {
+  display: block;
+  background: #707588 !important;
+}
