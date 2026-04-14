@@ -255,3 +255,10 @@
 .portal-btn:hover {
   opacity: 0.96;
 }
+
+
+.btn-icon-img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}

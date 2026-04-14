@@ -14,36 +14,90 @@ body {
 }
 
 ngx-extended-pdf-viewer {
-  --body-bg-color: #707588;
+  --body-bg-color: #767b8c;
   --toolbar-bg-color: #666b79;
-  --sidebar-bg-color: #707588;
+  --sidebar-bg-color: #767b8c;
   --main-menu-bg-color: #666b79;
   --viewer-container-height: 740px;
+  display: block;
+  background: #767b8c !important;
 }
 
-ngx-extended-pdf-viewer .toolbar {
+ngx-extended-pdf-viewer .toolbar,
+ngx-extended-pdf-viewer .toolbarContainer,
+ngx-extended-pdf-viewer #toolbarContainer,
+ngx-extended-pdf-viewer #toolbarViewer,
+ngx-extended-pdf-viewer #toolbarViewerContainer {
   background: #666b79 !important;
+  background-color: #666b79 !important;
+  border-bottom: none !important;
+}
+
+ngx-extended-pdf-viewer .toolbarButton,
+ngx-extended-pdf-viewer .toolbar button,
+ngx-extended-pdf-viewer .dropdownToolbarButton,
+ngx-extended-pdf-viewer .secondaryToolbarButton,
+ngx-extended-pdf-viewer #toolbarViewer button,
+ngx-extended-pdf-viewer #toolbarViewerRight button,
+ngx-extended-pdf-viewer #toolbarViewerLeft button,
+ngx-extended-pdf-viewer button,
+ngx-extended-pdf-viewer [role="button"] {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  opacity: 1 !important;
+}
+
+ngx-extended-pdf-viewer .toolbarButton::before,
+ngx-extended-pdf-viewer .secondaryToolbarButton::before,
+ngx-extended-pdf-viewer .dropdownToolbarButton::before,
+ngx-extended-pdf-viewer #toolbarViewer button::before,
+ngx-extended-pdf-viewer #toolbarViewerRight button::before,
+ngx-extended-pdf-viewer #toolbarViewerLeft button::before {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  opacity: 1 !important;
+}
+
+ngx-extended-pdf-viewer svg,
+ngx-extended-pdf-viewer svg path,
+ngx-extended-pdf-viewer svg use,
+ngx-extended-pdf-viewer .toolbar svg,
+ngx-extended-pdf-viewer .toolbar svg path,
+ngx-extended-pdf-viewer .toolbar svg use {
+  fill: #e5e7eb  !important;
+  color: #e5e7eb  !important;
+  stroke: #e5e7eb  !important;
+  opacity: 1 !important;
+}
+
+ngx-extended-pdf-viewer .toolbarButton:hover,
+ngx-extended-pdf-viewer .toolbar button:hover,
+ngx-extended-pdf-viewer button:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
 }
 
 ngx-extended-pdf-viewer .pdfViewer,
 ngx-extended-pdf-viewer #viewerContainer,
 ngx-extended-pdf-viewer .mainContainer,
-ngx-extended-pdf-viewer .viewerContainer {
-  background-color: #707588 !important;
+ngx-extended-pdf-viewer .viewerContainer,
+ngx-extended-pdf-viewer #outerContainer,
+ngx-extended-pdf-viewer #mainContainer {
+  background: #767b8c !important;
+  background-color: #767b8c !important;
 }
 
 ngx-extended-pdf-viewer #sidebarContainer,
 ngx-extended-pdf-viewer .sidebarContent,
-ngx-extended-pdf-viewer .thumbnailSidebar {
-  background-color: #707588 !important;
+ngx-extended-pdf-viewer .thumbnailSidebar,
+ngx-extended-pdf-viewer #toolbarSidebar {
+  background: #767b8c !important;
+  background-color: #767b8c !important;
 }
 
-ngx-extended-pdf-viewer .toolbarContainer {
-  background: #666b79 !important;
-  border-bottom: none !important;
+ngx-extended-pdf-viewer .page {
+  box-shadow: none !important;
 }
 
-ngx-extended-pdf-viewer {
-  display: block;
-  background: #707588 !important;
+ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
+  background: #8b90a0;
 }
