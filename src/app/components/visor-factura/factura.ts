@@ -39,17 +39,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.facturaId = params.get('id') || '';
-
-      if (!this.facturaId) {
-        this.error = 'No se recibió el id de la factura en la URL.';
-        this.cdr.detectChanges();
-        return;
-      }
-
-      this.cargarFactura();
-    });
+  this.cargarFactura();
   }
 
   cargarFactura(): void {

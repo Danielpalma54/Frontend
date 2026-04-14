@@ -36,14 +36,14 @@ export class FacturaService {
 
   obtenerInfoFactura(id: string): Observable<FacturaInfoResponse> {
     return this.http.get<FacturaInfoResponse>(
-      `${this.apiUrl}/facturas/${id}`,
+      `${this.apiUrl}/factura`,
       { headers: this.getHeaders() }
     );
   }
 
   obtenerDocumentosFactura(id: string): Observable<FacturaDocumentoResponse> {
     return this.http.get<FacturaDocumentoResponse>(
-      `${this.apiUrl}/facturas/${id}/documentos`,
+      `${this.apiUrl}/factura/documentos`,
       { headers: this.getHeaders() }
     );
   }
