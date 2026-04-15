@@ -4,14 +4,16 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface FacturaInfoResponse {
-  numero: string;
-  estado: string;
   emisor: string;
   ruc: string;
-  nombreComercial?: string;
+  razonSocial: string;
   receptor: string;
   correo: string;
   fechaEmision: string;
+  tipoComprobante: string;
+  noComprobante: string;
+  estadoComprobante: string;
+  nombreComercial?: string;
 }
 
 export interface FacturaDocumentoResponse {
@@ -34,14 +36,14 @@ export class FacturaService {
     });
   }
 
-  obtenerInfoFactura(id: string): Observable<FacturaInfoResponse> {
+  obtenerInfoFactura(): Observable<FacturaInfoResponse> {
     return this.http.get<FacturaInfoResponse>(
       `${this.apiUrl}/factura`,
       { headers: this.getHeaders() }
     );
   }
 
-  obtenerDocumentosFactura(id: string): Observable<FacturaDocumentoResponse> {
+  obtenerDocumentosFactura(): Observable<FacturaDocumentoResponse> {
     return this.http.get<FacturaDocumentoResponse>(
       `${this.apiUrl}/factura/documentos`,
       { headers: this.getHeaders() }

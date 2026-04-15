@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {
@@ -30,16 +29,13 @@ export class FacturaComponent implements OnInit, OnDestroy {
   readonly loginUrl = environment.loginUrl;
   readonly portalUrl = environment.portalUrl;
 
-  facturaId = '';
-
   constructor(
     private facturaService: FacturaService,
-    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-  this.cargarFactura();
+    this.cargarFactura();
   }
 
   cargarFactura(): void {
@@ -48,8 +44,8 @@ export class FacturaComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
 
     forkJoin({
-      info: this.facturaService.obtenerInfoFactura(this.facturaId),
-      docs: this.facturaService.obtenerDocumentosFactura(this.facturaId)
+      info: this.facturaService.obtenerInfoFactura(),
+      docs: this.facturaService.obtenerDocumentosFactura()
     }).subscribe({
       next: ({ info, docs }) => {
         try {
@@ -126,7 +122,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
     this.descargarArchivo(
       this.pdfBlobUrl,
-      `factura-${this.factura?.numero ?? this.facturaId}.pdf`
+      `${this.factura?.tipoComprobante ?? 'documento'}-${this.factura?.noComprobante ?? 'archivo'}.pdf`
     );
   }
 
@@ -135,7 +131,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
     this.descargarArchivo(
       this.xmlBlobUrl,
-      `factura-${this.factura?.numero ?? this.facturaId}.xml`
+      `${this.factura?.tipoComprobante ?? 'documento'}-${this.factura?.noComprobante ?? 'archivo'}.xml`
     );
   }
 

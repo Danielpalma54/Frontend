@@ -17,14 +17,15 @@
       <div class="border-b border-[#e5e7eb] px-[22px] pb-4 pt-[18px]">
         <div class="flex flex-wrap items-center gap-[14px]">
           <h1 class="m-0 text-[24px] font-medium leading-[1.25] text-[#111111]">
-            Factura {{ factura?.numero || facturaId }}
+            {{ factura?.tipoComprobante || 'Factura' }}
+            {{ factura?.noComprobante || '' }}
           </h1>
 
           <span
-            *ngIf="factura?.estado"
+            *ngIf="factura?.estadoComprobante"
             class="inline-flex min-h-[32px] items-center gap-2 rounded-[10px] border border-[#c4e5c4] bg-[#dff1df] px-4 text-[16px] font-medium text-[#2d7b4b]">
             <span class="text-[11px] leading-none">●</span>
-            {{ factura?.estado }}
+            {{ factura?.estadoComprobante }}
           </span>
         </div>
       </div>
@@ -47,38 +48,36 @@
 
       <div *ngIf="!cargando && !error && factura" class="px-[22px] pb-[22px] pt-[18px]">
         <div class="mb-[14px] border-b border-[#e5e7eb] pb-[13px]">
-
           <p class="my-[6px] text-[15px] leading-[1.6]">
-            <strong class="font-bold text-[#333333]">Emisor:</strong>
-            <span class="font-bold text-[#333333]">{{ factura.emisor }}</span>
+            <strong class="font-semibold text-[#1f2937]">Emisor:</strong>
+            <span class="font-medium text-[#1f2937]">{{ factura.emisor }}</span>
 
             <span class="mx-[6px] text-[#9ca3af]">|</span>
 
-            <strong class="font-normal text-[#6b7280]">RUC:</strong>
+            <strong class="font-medium text-[#6b7280]">RUC:</strong>
             <span class="font-normal text-[#6b7280]">{{ factura.ruc }}</span>
 
             <ng-container *ngIf="factura.nombreComercial">
               <span class="mx-[6px] text-[#9ca3af]">|</span>
-              <strong class="font-normal text-[#6b7280]">Nombre Comercial:</strong>
+              <strong class="font-medium text-[#6b7280]">Nombre Comercial:</strong>
               <span class="font-normal text-[#6b7280]">{{ factura.nombreComercial }}</span>
             </ng-container>
           </p>
 
           <p class="my-[6px] text-[15px] leading-[1.6]">
-            <strong class="font-bold text-[#333333]">Receptor:</strong>
-            <span class="font-bold text-[#333333]">{{ factura.receptor }}</span>
+            <strong class="font-semibold text-[#1f2937]">Receptor:</strong>
+            <span class="font-medium text-[#1f2937]">{{ factura.receptor }}</span>
 
             <span class="mx-[6px] text-[#9ca3af]">|</span>
 
-            <strong class="font-normal text-[#6b7280]">Correo:</strong>
+            <strong class="font-medium text-[#6b7280]">Correo:</strong>
             <span class="font-normal text-[#6b7280]">{{ factura.correo }}</span>
 
             <span class="mx-[6px] text-[#9ca3af]">|</span>
 
-            <strong class="font-normal text-[#6b7280]">Fecha Emisión:</strong>
+            <strong class="font-medium text-[#6b7280]">Fecha Emisión:</strong>
             <span class="font-normal text-[#6b7280]">{{ factura.fechaEmision }}</span>
           </p>
-
         </div>
 
         <div class="mb-4 flex flex-wrap gap-2">
@@ -133,7 +132,7 @@
                 Accede al historial de tus comprobantes recibidos
               </div>
 
-              <div class="mt-[6px] text-[15px] leading-[1.4] text-[#555555]">
+              <div class="mt-[6px] text-[15px] leading-[1.4] text-[#4b5563]">
                 ✅ En un clic filtrar y descargar PDF / XML cuando lo necesites
               </div>
             </div>
