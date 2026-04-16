@@ -9,7 +9,10 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+body {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
   background: #f3f3f3;
 }
 
@@ -28,8 +31,8 @@ ngx-extended-pdf-viewer .toolbarContainer,
 ngx-extended-pdf-viewer #toolbarContainer,
 ngx-extended-pdf-viewer #toolbarViewer,
 ngx-extended-pdf-viewer #toolbarViewerContainer {
-  background: #5e626e !important;
-  background-color: #5e626e !important;
+  background: #666b79 !important;
+  background-color: #666b79 !important;
   border-bottom: none !important;
 }
 
@@ -42,8 +45,8 @@ ngx-extended-pdf-viewer #toolbarViewerRight button,
 ngx-extended-pdf-viewer #toolbarViewerLeft button,
 ngx-extended-pdf-viewer button,
 ngx-extended-pdf-viewer [role="button"] {
-  color: #ffffff !important;
-  fill: #ffffff !important;
+  color: #e5e7eb !important;
+  fill: #e5e7eb !important;
   opacity: 1 !important;
 }
 
@@ -53,8 +56,8 @@ ngx-extended-pdf-viewer .dropdownToolbarButton::before,
 ngx-extended-pdf-viewer #toolbarViewer button::before,
 ngx-extended-pdf-viewer #toolbarViewerRight button::before,
 ngx-extended-pdf-viewer #toolbarViewerLeft button::before {
-  color: #ffffff !important;
-  fill: #ffffff !important;
+  color: #e5e7eb !important;
+  fill: #e5e7eb !important;
   opacity: 1 !important;
 }
 
@@ -64,9 +67,9 @@ ngx-extended-pdf-viewer svg use,
 ngx-extended-pdf-viewer .toolbar svg,
 ngx-extended-pdf-viewer .toolbar svg path,
 ngx-extended-pdf-viewer .toolbar svg use {
-  fill: #d1d5db   !important;
-  color: #d1d5db   !important;
-  stroke: #d1d5db   !important;
+  fill: #e5e7eb !important;
+  color: #e5e7eb !important;
+  stroke: #e5e7eb !important;
   opacity: 1 !important;
 }
 
@@ -90,8 +93,8 @@ ngx-extended-pdf-viewer #sidebarContainer,
 ngx-extended-pdf-viewer .sidebarContent,
 ngx-extended-pdf-viewer .thumbnailSidebar,
 ngx-extended-pdf-viewer #toolbarSidebar {
-  background: #6f7381 !important;
-  background-color: #6f7381 !important;
+  background: #767b8c !important;
+  background-color: #767b8c !important;
 }
 
 ngx-extended-pdf-viewer .page {
@@ -100,15 +103,4 @@ ngx-extended-pdf-viewer .page {
 
 ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
   background: #8b90a0;
-}
-
-ngx-extended-pdf-viewer #secondaryToolbar,
-ngx-extended-pdf-viewer .secondaryToolbar {
-  background-color: #5e626e !important;
-  color: #ffffff !important;
-}
-
-ngx-extended-pdf-viewer .secondaryToolbar button,
-ngx-extended-pdf-viewer .secondaryToolbar span {
-  color: #ffffff !important;
 }

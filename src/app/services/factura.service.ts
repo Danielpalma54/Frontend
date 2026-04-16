@@ -16,43 +16,46 @@ export interface FacturaInfoResponse {
   nombreComercial?: string;
 }
 
-export interface FacturaDocumentoResponse {
+export interface PdfResponse {
   pdfBase64: string;
+}
+
+export interface XmlResponse {
+  xmlBase64?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class FacturaService {
-  private readonly apiUrl = environment.apiUrl;
-  private readonly token = environment.token;
+  private apiUrl = environment.apiUrl.replace(/\/$/, '');
 
   constructor(private http: HttpClient) {}
 
-  private getBody() {
+  private crearBody(token: string) {
     return {
-      tokenRequest: this.token
+      tokenRequest: token
     };
   }
 
-  obtenerInfoFactura(): Observable<FacturaInfoResponse> {
+  obtenerInfoFactura(token: string): Observable<FacturaInfoResponse> {
     return this.http.post<FacturaInfoResponse>(
       `${this.apiUrl}/api/v1/comprobantes/info`,
-      this.getBody()
+      this.crearBody(token)
     );
   }
 
-  obtenerPdf(): Observable<FacturaDocumentoResponse> {
-    return this.http.post<FacturaDocumentoResponse>(
+  obtenerPdf(token: string): Observable<PdfResponse> {
+    return this.http.post<PdfResponse>(
       `${this.apiUrl}/api/v1/comprobantes/pdf`,
-      this.getBody()
+      this.crearBody(token)
     );
   }
 
-  obtenerXml(): Observable<any> {
-    return this.http.post(
+  obtenerXml(token: string): Observable<XmlResponse> {
+    return this.http.post<XmlResponse>(
       `${this.apiUrl}/api/v1/comprobantes/xml`,
-      this.getBody()
+      this.crearBody(token)
     );
   }
 }

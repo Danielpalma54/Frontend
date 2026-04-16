@@ -1,19 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { FacturaComponent } from './factura';
 
-import { VisorFactura } from 'services./factura.service';
-
-describe('VisorFactura', () => {
-  let component: VisorFactura;
-  let fixture: ComponentFixture<VisorFactura>;
+describe('FacturaComponent', () => {
+  let component: FacturaComponent;
+  let fixture: ComponentFixture<FacturaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VisorFactura],
+      imports: [FacturaComponent],
+      providers: [provideHttpClient()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(VisorFactura);
+    fixture = TestBed.createComponent(FacturaComponent);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {
