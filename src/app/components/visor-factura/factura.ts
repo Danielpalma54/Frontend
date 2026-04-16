@@ -1,20 +1,8 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ChangeDetectorRef,
-  Inject,
-  PLATFORM_ID
-} from '@angular/core';
+import {Component,OnDestroy,OnInit,ChangeDetectorRef,Inject,PLATFORM_ID} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import {
-  FacturaService,
-  FacturaInfoResponse,
-  PdfResponse,
-  XmlResponse
-} from '../../services/factura.service';
+import {FacturaService,FacturaInfoResponse,PdfResponse,XmlResponse} from '../../services/factura.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -68,7 +56,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
     this.tokenDesdeUrl = this.obtenerTokenDesdeUrl();
 
     if (!this.tokenDesdeUrl) {
-      this.error = 'No se recibió token en la URL';
+      this.error = 'No se recibió token en la URL';         //
       this.cdr.detectChanges();
       return;
     }
@@ -93,7 +81,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
   cargarFactura(): void {
     if (!this.tokenDesdeUrl) {
-      this.error = 'No se recibió token en la URL';
+      this.error = 'No Hay token para cargar la factura';
       return;
     }
 
