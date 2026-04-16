@@ -1,8 +1,16 @@
-import {Component,OnDestroy,OnInit,ChangeDetectorRef,Inject,PLATFORM_ID} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  Inject,
+  PLATFORM_ID
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import {FacturaService,FacturaInfoResponse,PdfResponse,XmlResponse} from '../../services/factura.service';
+import { FacturaService, FacturaInfoResponse } from '../../services/factura.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -20,7 +28,6 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
   pdfSrc: string | null = null;
   pdfBlobUrl: string | null = null;
-
   tokenDesdeUrl = '';
 
   readonly loginUrl = environment.loginUrl;
@@ -56,7 +63,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
     this.tokenDesdeUrl = this.obtenerTokenDesdeUrl();
 
     if (!this.tokenDesdeUrl) {
-      this.error = 'No se recibió token en la URL';         //
+      this.error = 'No se recibió token en la URL';
       this.cdr.detectChanges();
       return;
     }
@@ -81,7 +88,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
   cargarFactura(): void {
     if (!this.tokenDesdeUrl) {
-      this.error = 'No Hay token para cargar la factura';
+      this.error = 'No se recibió token en la URL';
       return;
     }
 
@@ -94,7 +101,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
       info: this.service.obtenerInfoFactura(this.tokenDesdeUrl),
       pdf: this.service.obtenerPdf(this.tokenDesdeUrl)
     }).subscribe({
-      next: ({ info, pdf }: { info: FacturaInfoResponse; pdf: PdfResponse }) => {
+      next: ({ info, pdf }) => {
         this.factura = info;
 
         if (this.pdfBlobUrl) {
@@ -102,34 +109,103 @@ export class FacturaComponent implements OnInit, OnDestroy {
           this.pdfBlobUrl = null;
         }
 
-        if (pdf?.pdfBase64) {
-          this.pdfBlobUrl = this.convertirBase64PdfAUrl(pdf.pdfBase64);
+        const base64Pdf = this.extraerBase64Pdf(pdf);
+
+        if (base64Pdf) {
+          this.pdfBlobUrl = this.toBlob(base64Pdf);
           this.pdfSrc = this.pdfBlobUrl;
+        } else {
+          this.pdfSrc = null;
         }
 
         this.cargando = false;
         this.cdr.detectChanges();
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Error al cargar comprobante:', err);
-        this.error = 'Error al cargar comprobante';
+        this.error = this.obtenerMensajeError(err);
         this.cargando = false;
         this.cdr.detectChanges();
       }
     });
   }
 
-  private convertirBase64PdfAUrl(base64: string): string {
-    const limpio = base64.replace(/^data:application\/pdf;base64,/, '');
-    const bytes = atob(limpio);
-    const array = new Uint8Array(bytes.length);
-
-    for (let i = 0; i < bytes.length; i++) {
-      array[i] = bytes.charCodeAt(i);
+  private extraerBase64Pdf(res: any): string {
+    if (!res) {
+      return '';
     }
 
-    const blob = new Blob([array], { type: 'application/pdf' });
-    return URL.createObjectURL(blob);
+    if (typeof res === 'string') {
+      return res.trim();
+    }
+
+    return (
+      res.pdfBase64 ||
+      res.base64 ||
+      res.archivoBase64 ||
+      res.fileBase64 ||
+      res.data ||
+      res.pdf ||
+      ''
+    ).trim();
+  }
+
+  private extraerBase64Xml(res: any): string {
+    if (!res) {
+      return '';
+    }
+
+    if (typeof res === 'string') {
+      return res.trim();
+    }
+
+    return (
+      res.xmlBase64 ||
+      res.base64 ||
+      res.archivoBase64 ||
+      res.fileBase64 ||
+      res.data ||
+      res.xml ||
+      ''
+    ).trim();
+  }
+
+  private obtenerMensajeError(err: HttpErrorResponse): string {
+    const backendMessage =
+      err?.error?.message ||
+      err?.error?.mensaje ||
+      err?.error?.title ||
+      '';
+
+    if (err.status === 401 || err.status === 403) {
+      return 'Token inválido o expirado';
+    }
+
+    if (err.status === 404) {
+      return 'No se encontró el comprobante solicitado';
+    }
+
+    if (err.status === 0) {
+      return 'No se pudo conectar con el backend';
+    }
+
+    if (typeof backendMessage === 'string' && backendMessage.trim()) {
+      return backendMessage;
+    }
+
+    return 'Error al cargar comprobante';
+  }
+
+  private toBlob(base64: string): string {
+    const clean = base64.replace(/^data:application\/pdf;base64,/, '');
+    const bytes = atob(clean);
+    const arr = new Uint8Array(bytes.length);
+
+    for (let i = 0; i < bytes.length; i++) {
+      arr[i] = bytes.charCodeAt(i);
+    }
+
+    return URL.createObjectURL(new Blob([arr], { type: 'application/pdf' }));
   }
 
   descargarPdf(): void {
@@ -149,9 +225,17 @@ export class FacturaComponent implements OnInit, OnDestroy {
     }
 
     this.service.obtenerXml(this.tokenDesdeUrl).subscribe({
-      next: (res: XmlResponse) => {
-        const contenido = res?.xmlBase64 ? atob(res.xmlBase64) : '';
-        const blob = new Blob([contenido], { type: 'application/xml' });
+      next: (res: any) => {
+        const xmlBase64 = this.extraerBase64Xml(res);
+
+        let xml = '';
+        if (xmlBase64) {
+          xml = atob(xmlBase64.replace(/^data:application\/xml;base64,/, ''));
+        } else {
+          xml = typeof res === 'string' ? res : JSON.stringify(res);
+        }
+
+        const blob = new Blob([xml], { type: 'application/xml' });
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
@@ -161,9 +245,9 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
         URL.revokeObjectURL(url);
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Error al descargar XML:', err);
-        this.error = 'Error al descargar XML';
+        this.error = this.obtenerMensajeError(err);
         this.cdr.detectChanges();
       }
     });
