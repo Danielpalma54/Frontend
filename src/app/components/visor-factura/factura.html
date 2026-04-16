@@ -53,38 +53,38 @@
 
           <p class="my-[6px] text-[15px] leading-[1.6]">
             <ng-container *ngIf="factura.emisor">
-              <strong>Emisor:</strong>
+              <strong>Emisor: </strong>
               {{ factura.emisor }}
             </ng-container>
 
             <ng-container *ngIf="factura.ruc">
               <span *ngIf="factura.emisor"> | </span>
-              <strong>RUC:</strong>
+              <strong>RUC: </strong>
               {{ factura.ruc }}
             </ng-container>
 
             <ng-container *ngIf="factura.nombreComercial">
               <span *ngIf="factura.emisor || factura.ruc"> | </span>
-              <strong>Nombre Comercial:</strong>
+              <strong>Nombre Comercial: </strong>
               {{ factura.nombreComercial }}
             </ng-container>
           </p>
 
           <p class="my-[6px] text-[15px] leading-[1.6]">
             <ng-container *ngIf="factura.receptor">
-              <strong>Receptor:</strong>
+              <strong>Receptor: </strong>
               {{ factura.receptor }}
             </ng-container>
 
             <ng-container *ngIf="factura.correo">
               <span *ngIf="factura.receptor"> | </span>
-              <strong>Correo:</strong>
+              <strong>Correo: </strong>
               {{ factura.correo }}
             </ng-container>
 
             <ng-container *ngIf="factura.fechaEmision">
               <span *ngIf="factura.receptor || factura.correo"> | </span>
-              <strong>Fecha Emisión:</strong>
+              <strong>Fecha Emisión: </strong>
               {{ factura.fechaEmision }}
             </ng-container>
           </p>
