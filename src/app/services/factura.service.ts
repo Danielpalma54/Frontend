@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -18,7 +18,6 @@ export interface FacturaInfoResponse {
 
 export interface FacturaDocumentoResponse {
   pdfBase64: string;
-  xmlBase64?: string;
 }
 
 @Injectable({
@@ -30,23 +29,30 @@ export class FacturaService {
 
   constructor(private http: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${this.token}`
-    });
+  private getBody() {
+    return {
+      tokenRequest: this.token
+    };
   }
 
   obtenerInfoFactura(): Observable<FacturaInfoResponse> {
-    return this.http.get<FacturaInfoResponse>(
-      `${this.apiUrl}/factura`,      //arreglar 
-      { headers: this.getHeaders() }
+    return this.http.post<FacturaInfoResponse>(
+      `${this.apiUrl}/api/v1/comprobantes/info`,
+      this.getBody()
     );
   }
 
-  obtenerDocumentosFactura(): Observable<FacturaDocumentoResponse> {
-    return this.http.get<FacturaDocumentoResponse>(
-      `${this.apiUrl}/factura/documentos`, //arreglar 
-      { headers: this.getHeaders() }
+  obtenerPdf(): Observable<FacturaDocumentoResponse> {
+    return this.http.post<FacturaDocumentoResponse>(
+      `${this.apiUrl}/api/v1/comprobantes/pdf`,
+      this.getBody()
+    );
+  }
+
+  obtenerXml(): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/api/v1/comprobantes/xml`,
+      this.getBody()
     );
   }
 }
