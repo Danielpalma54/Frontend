@@ -12,19 +12,21 @@
     </div>
   </header>
 
-  <main class="mx-auto mt-6 max-w-[1366px] px-[18px] pb-6">
+  <main class="mx-auto mt-6 max-w-[1366px] px-[18px] pb-6">           <!-- subir bloque -->
     <section class="overflow-hidden rounded-[12px] border border-[#d9dde2] bg-white">
-      <div class="border-b border-[#e5e7eb] px-[22px] pb-4 pt-[18px]">
+
+      <div *ngIf="factura" class="border-b border-[#e5e7eb] px-[22px] pb-4 pt-[18px]">
         <div class="flex flex-wrap items-center gap-[14px]">
           <h1 class="m-0 text-[24px] font-medium leading-[1.25] text-[#111111]">
-            {{ factura?.tipoComprobante || 'Factura' }} {{ factura?.noComprobante || '' }}
+            {{ factura.tipoComprobante || '' }}
+            {{ factura.noComprobante || '' }}
           </h1>
 
           <span
-            *ngIf="factura?.estadoComprobante"
+            *ngIf="factura.estadoComprobante"
             class="inline-flex min-h-[32px] items-center gap-2 rounded-[10px] border border-[#c4e5c4] bg-[#dff1df] px-4 text-[16px] font-medium text-[#2d7b4b]">
             <span class="text-[11px] leading-none">●</span>
-            {{ factura?.estadoComprobante }}
+            {{ factura.estadoComprobante }}
           </span>
         </div>
       </div>
@@ -46,72 +48,71 @@
       </div>
 
       <div *ngIf="!cargando && !error && factura" class="px-[22px] pb-[22px] pt-[18px]">
+
         <div class="mb-[14px] border-b border-[#e5e7eb] pb-[13px]">
+
           <p class="my-[6px] text-[15px] leading-[1.6]">
-            <strong class="font-semibold text-[#080808]">Emisor:</strong>
-            <span class="font-medium text-[#080808]">{{ factura.emisor }}</span>
+            <ng-container *ngIf="factura.emisor">
+              <strong>Emisor:</strong>
+              {{ factura.emisor }}
+            </ng-container>
 
-            <span class="mx-[6px] text-[#9ca3af]">|</span>
-
-            <strong class="font-medium text-[#3a3a3a]">RUC:</strong>
-            <span class="font-normal text-[#3a3a3a]">{{ factura.ruc }}</span>
+            <ng-container *ngIf="factura.ruc">
+              <span *ngIf="factura.emisor"> | </span>
+              <strong>RUC:</strong>
+              {{ factura.ruc }}
+            </ng-container>
 
             <ng-container *ngIf="factura.nombreComercial">
-              <span class="mx-[6px] text-[#9ca3af]">|</span>
-              <strong class="font-medium text-[#3a3a3a]">Nombre Comercial:</strong>
-              <span class="font-normal text-[#3a3a3a]">{{ factura.nombreComercial }}</span>
+              <span *ngIf="factura.emisor || factura.ruc"> | </span>
+              <strong>Nombre Comercial:</strong>
+              {{ factura.nombreComercial }}
             </ng-container>
           </p>
 
           <p class="my-[6px] text-[15px] leading-[1.6]">
-            <strong class="font-semibold text-[#080808]">Receptor:</strong>
-            <span class="font-medium text-[#080808]">{{ factura.receptor }}</span>
+            <ng-container *ngIf="factura.receptor">
+              <strong>Receptor:</strong>
+              {{ factura.receptor }}
+            </ng-container>
 
-            <span class="mx-[6px] text-[#9ca3af]">|</span>
+            <ng-container *ngIf="factura.correo">
+              <span *ngIf="factura.receptor"> | </span>
+              <strong>Correo:</strong>
+              {{ factura.correo }}
+            </ng-container>
 
-            <strong class="font-medium text-[#3a3a3a]">Correo:</strong>
-            <span class="font-normal text-[#3a3a3a]">{{ factura.correo }}</span>
-
-            <span class="mx-[6px] text-[#9ca3af]">|</span>
-
-            <strong class="font-medium text-[#3a3a3a]">Fecha Emisión: </strong>
-            <span class="font-normal text-[#3a3a3a]">{{ factura.fechaEmision }}</span>
+            <ng-container *ngIf="factura.fechaEmision">
+              <span *ngIf="factura.receptor || factura.correo"> | </span>
+              <strong>Fecha Emisión:</strong>
+              {{ factura.fechaEmision }}
+            </ng-container>
           </p>
         </div>
 
         <div class="mb-4 flex flex-wrap gap-2">
           <button
             type="button"
-            class="inline-flex h-[50px] min-w-[222px] items-center justify-start gap-[10px] rounded-[10px] border border-[#d4d9df] bg-white px-[18px] text-[16px] font-medium text-[#333333] disabled:cursor-not-allowed disabled:opacity-60"
             (click)="descargarPdf()"
-            [disabled]="!pdfSrc">
-            <img src="assets/iconspdf.png" class="h-[18px] w-[18px] object-contain" />
+            [disabled]="!pdfSrc"
+            class="inline-flex h-[50px] min-w-[222px] items-center gap-[10px] rounded-[10px] border border-[#d4d9df] bg-white px-[18px] text-[16px] font-medium text-[#333333]">
             Descargar PDF (RIDE)
           </button>
 
           <button
             type="button"
-            class="inline-flex h-[50px] min-w-[222px] items-center justify-start gap-[10px] rounded-[10px] border border-[#d4d9df] bg-white px-[18px] text-[16px] font-medium text-[#333333]"
-            (click)="descargarXml()">
-            <img src="assets/iconsxml.png" class="h-[18px] w-[18px] object-contain" />
+            (click)="descargarXml()"
+            class="inline-flex h-[50px] min-w-[222px] items-center gap-[10px] rounded-[10px] border border-[#d4d9df] bg-white px-[18px] text-[16px] font-medium text-[#333333]">
             Descargar XML
           </button>
         </div>
 
+        <!-- PDF -->
         <div *ngIf="pdfSrc; else noPdf" class="overflow-hidden rounded-[11px] border border-[#cfd5dd] bg-[#767b8c]">
           <ngx-extended-pdf-viewer
             [src]="pdfSrc"
             [height]="'740px'"
-            [showToolbar]="true"
-            [showSidebarButton]="true"
-            [showFindButton]="true"
-            [showPagingButtons]="true"
-            [showZoomButtons]="true"
-            [showPresentationModeButton]="true"
-            [showOpenFileButton]="false"
-            [showDownloadButton]="false"
-            [showPrintButton]="true"
-            [textLayer]="true">
+            [showToolbar]="true">
           </ngx-extended-pdf-viewer>
         </div>
 
@@ -121,28 +122,6 @@
           </div>
         </ng-template>
 
-        <div class="mt-[14px] flex flex-wrap items-center justify-between gap-[18px] rounded-[12px] border border-[#d8dde3] bg-[#fafafa] px-[22px] py-[18px]">
-          <div class="flex items-center gap-[14px]">
-            <img src="assets/mini-icons.png" alt="Logo empresa" class="block h-[52px] w-auto object-contain" />
-
-            <div class="flex flex-col">
-              <div class="text-[17px] font-semibold leading-[1.3] text-[#1f2937]">
-                Accede al historial de tus comprobantes recibidos
-              </div>
-
-              <div class="mt-[6px] text-[15px] leading-[1.4] text-[#4b5563]">
-                ✅ En un clic filtrar y descargar PDF / XML cuando lo necesites
-              </div>
-            </div>
-          </div>
-
-          <button
-            class="h-[38px] min-w-[181px] rounded-[10px] border-0 bg-[#0867cf] px-5 text-[15px] font-semibold text-white"
-            type="button"
-            (click)="abrirPortal()">
-            Acceder al Portal
-          </button>
-        </div>
       </div>
     </section>
   </main>

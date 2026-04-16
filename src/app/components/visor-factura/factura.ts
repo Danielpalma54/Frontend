@@ -1,16 +1,9 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  Inject,
-  PLATFORM_ID
-} from '@angular/core';
+import {ChangeDetectorRef,Component,Inject,OnDestroy,OnInit,PLATFORM_ID} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import { FacturaService, FacturaInfoResponse } from '../../services/factura.service';
+import { FacturaInfoResponse, FacturaService } from '../../services/factura.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -179,6 +172,17 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
     if (err.status === 401 || err.status === 403) {
       return 'Token inválido o expirado';
+    }
+
+    if (err.status === 400) {
+      if (
+        typeof backendMessage === 'string' &&
+        /token|jwt|unauthorized|forbidden|inv[aá]lido|expired|expirado/i.test(backendMessage)
+      ) {
+        return 'Token inválido o expirado';
+      }
+
+      return 'Solicitud inválida al consultar el comprobante';
     }
 
     if (err.status === 404) {
