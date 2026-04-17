@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://p4hkhvmf-7132.use.devtunnels.ms',
+  apiUrl: 'https://4n3f4rgp-7132.brs.devtunnels.ms',
   loginUrl: 'https://www.facturasintuitosa.com/',
   portalUrl: 'https://www.facturasintuitosa.com/'
 };  
