@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 * {
@@ -7,12 +7,11 @@
 
 html,
 body {
-  margin: 0;
-  padding: 0;
+  height: 100%;
 }
 
 body {
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
   background: #f3f3f3;
 }
 
@@ -31,9 +30,13 @@ ngx-extended-pdf-viewer .toolbarContainer,
 ngx-extended-pdf-viewer #toolbarContainer,
 ngx-extended-pdf-viewer #toolbarViewer,
 ngx-extended-pdf-viewer #toolbarViewerContainer {
-  background: #666b79 !important;
-  background-color: #666b79 !important;
+  background: #5E626F !important;
+  background-color: #5E626F !important;
   border-bottom: none !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  display: flex;
+  align-items: center;
 }
 
 ngx-extended-pdf-viewer .toolbarButton,
@@ -85,8 +88,8 @@ ngx-extended-pdf-viewer .mainContainer,
 ngx-extended-pdf-viewer .viewerContainer,
 ngx-extended-pdf-viewer #outerContainer,
 ngx-extended-pdf-viewer #mainContainer {
-  background: #767b8c !important;
-  background-color: #767b8c !important;
+  background: #6F7281 !important;
+  background-color: #6F7281 !important;
 }
 
 ngx-extended-pdf-viewer #sidebarContainer,
@@ -103,4 +106,102 @@ ngx-extended-pdf-viewer .page {
 
 ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
   background: #8b90a0;
+}
+
+
+/* CELL  VERIFICAR */
+@media (max-width: 768px) {
+  main {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  h1 {
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+  }
+
+  .min-h-screen header .mx-auto {
+    min-height: 74px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .min-h-screen header img {
+    height: 46px !important;
+  }
+
+  .min-h-screen header button {
+    min-width: 140px !important;
+    height: 34px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    font-size: 13px !important;
+  }
+
+  section > div,
+  section > div > div,
+  section > div > p {
+    word-break: break-word;
+  }
+
+  .flex.flex-wrap.items-center.justify-between.gap-\[18px\].rounded-\[12px\].border.border-\[\#d8dde3\].bg-white.px-\[22px\].py-\[18px\] {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    gap: 12px !important;
+  }
+
+  .flex.items-center.gap-\[14px\] {
+    align-items: flex-start !important;
+  }
+
+  .flex.flex-col .text-\[20px\] {
+    font-size: 16px !important;
+  }
+
+  .flex.flex-col .text-\[15px\] {
+    font-size: 13px !important;
+  }
+
+  .mb-4.flex.flex-wrap.gap-2 {
+    flex-direction: column !important;
+  }
+
+  .mb-4.flex.flex-wrap.gap-2 button {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  ngx-extended-pdf-viewer {
+    --viewer-container-height: 380px;
+  }
+
+  .h-\[450px\] {
+    height: 380px !important;
+  }
+
+  .px-\[22px\] {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .pt-\[18px\] {
+    padding-top: 14px !important;
+  }
+
+  .pb-\[22px\] {
+    padding-bottom: 14px !important;
+  }
+
+  .my-\[6px\].text-\[16px\].leading-\[1\.6\] {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+
+  .text-\[14px\] {
+    font-size: 12px !important;
+  }
 }
