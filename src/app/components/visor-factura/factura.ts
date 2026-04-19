@@ -53,8 +53,8 @@ export class FacturaComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.tokenDesdeUrl = this.obtenerTokenDesdeUrl();
-
+    this.tokenDesdeUrl = this.obtenerTokenDesdeUrl();            //borrar funcion
+   
     if (!this.tokenDesdeUrl) {
       this.error = 'No se recibió token en la URL';
       this.cdr.detectChanges();
