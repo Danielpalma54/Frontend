@@ -205,3 +205,88 @@ ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
     font-size: 12px !important;
   }
 }
+
+/* CDArk */
+
+@media (prefers-color-scheme: dark) {
+
+  body {
+    background: #0f172a;
+  }
+
+  .bg-white {
+    background-color: #1e293b !important;
+  }
+
+  .bg-\[\#f3f3f3\] {
+    background-color: #0f172a !important;
+  }
+
+  .border {
+    border-color: #334155 !important;
+  }
+
+  .border-\[\#d9dde2\],
+  .border-\[\#d8dde3\],
+  .border-\[\#e5e7eb\] {
+    border-color: #334155 !important;
+  }
+
+  .text-\[\#111111\] {
+    color: #e2e8f0 !important;
+  }
+
+  .text-\[\#333333\] {
+    color: #cbd5e1 !important;
+  }
+
+  .text-\[\#4b5563\] {
+    color: #94a3b8 !important;
+  }
+
+  .text-\[\#9d9d9d\],
+  .text-\[\#9ca3af\] {
+    color: #64748b !important;
+  }
+
+  header {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+  }
+
+  button.bg-white {
+    background-color: #334155 !important;
+    color: #e2e8f0 !important;
+    border-color: #475569 !important;
+  }
+
+  button.bg-white:hover {
+    background-color: #475569 !important;
+  }
+
+  .bg-\[\#fafafa\] {
+    background-color: #1e293b !important;
+  }
+
+  ngx-extended-pdf-viewer {
+    --body-bg-color: #1e293b;
+    --toolbar-bg-color: #0f172a;
+    --sidebar-bg-color: #1e293b;
+    --main-menu-bg-color: #0f172a;
+  }
+
+  .bg-\[\#eff6ff\] {
+    background-color: #1e3a8a !important;
+    color: #bfdbfe !important;
+  }
+
+  .bg-\[\#fef2f2\] {
+    background-color: #7f1d1d !important;
+    color: #fecaca !important;
+  }
+
+  .bg-\[\#fff7ed\] {
+    background-color: #7c2d12 !important;
+    color: #fed7aa !important;
+  }
+}
