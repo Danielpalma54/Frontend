@@ -48,8 +48,6 @@ export class FacturaComponent implements OnInit, OnDestroy {
     this.cargarFactura();
   }
 
-//BORRAR METODO REINTENTAR SI NO SE USA
-
   private obtenerTokenDesdeUrl(): string {
     if (!isPlatformBrowser(this.platformId)) {
       return '';
@@ -59,7 +57,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
     return (
       params.get('token') ||
-      params.get('jwt') ||
+      params.get('jwt') ||                      //VERIFICAR 
       params.get('encodedJwt') ||
       ''
     ).trim();

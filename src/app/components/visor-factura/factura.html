@@ -43,7 +43,7 @@
                 factura.estadoComprobante === 'ANULADO'
             }">
             <span class="text-[11px] leading-none"></span>
-            {{ factura.estadoComprobante }}
+            {{ factura.estadoComprobante.replaceAll('_', ' ') }}
           </span>
         </div>
       </div>
