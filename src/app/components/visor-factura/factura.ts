@@ -1,12 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {ChangeDetectorRef,Component,Inject,OnDestroy,OnInit,PLATFORM_ID} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import {
-  FacturaService,
-  FacturaDocumentoResponse,
-  FacturaInfoResponse
-} from '../../services/factura.service';
+import { FacturaInfoResponse, FacturaService } from '../../services/factura.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -24,125 +21,247 @@ export class FacturaComponent implements OnInit, OnDestroy {
 
   pdfSrc: string | null = null;
   pdfBlobUrl: string | null = null;
-  xmlBlobUrl: string | null = null;
+  tokenDesdeUrl = '';
 
-  readonly facturaId = environment.facturaId;
   readonly loginUrl = environment.loginUrl;
   readonly portalUrl = environment.portalUrl;
 
-  constructor(private facturaService: FacturaService) {}
+  constructor(
+    private service: FacturaService,
+    private cdr: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {}
 
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    this.tokenDesdeUrl = this.obtenerTokenDesdeUrl();
+
+    if (!this.tokenDesdeUrl) {
+      this.error = 'No se recibió token en la URL';
+      this.cdr.detectChanges();
+      return;
+    }
+
     this.cargarFactura();
   }
 
+//BORRAR METODO REINTENTAR SI NO SE USA
+
+  private obtenerTokenDesdeUrl(): string {
+    if (!isPlatformBrowser(this.platformId)) {
+      return '';
+    }
+
+    const params = new URLSearchParams(window.location.search);
+
+    return (
+      params.get('token') ||
+      params.get('jwt') ||
+      params.get('encodedJwt') ||
+      ''
+    ).trim();
+  }
+
   cargarFactura(): void {
+    if (!this.tokenDesdeUrl) {
+      this.error = 'No se recibió token en la URL';
+      return;
+    }
+
     this.cargando = true;
     this.error = '';
+    this.factura = null;
+    this.pdfSrc = null;
 
     forkJoin({
-      info: this.facturaService.obtenerInfoFactura(this.facturaId),
-      docs: this.facturaService.obtenerDocumentosFactura(this.facturaId)
+      info: this.service.obtenerInfoFactura(this.tokenDesdeUrl),
+      pdf: this.service.obtenerPdf(this.tokenDesdeUrl)
     }).subscribe({
-      next: ({ info, docs }) => {
+      next: ({ info, pdf }) => {
         this.factura = info;
-        this.procesarDocumentos(docs);
-        this.cargando = false;
-      },
-      error: (err) => {
-        console.error('Error al cargar factura:', err);
 
-        if (err?.status === 401) {
-          this.error = 'No autorizado. Revisa el token JWT.';
-        } else if (err?.status === 403) {
-          this.error = 'No tienes permisos para ver este comprobante.';
-        } else if (err?.status === 404) {
-          this.error = 'No se encontró la factura.';
+        if (this.pdfBlobUrl) {
+          URL.revokeObjectURL(this.pdfBlobUrl);
+          this.pdfBlobUrl = null;
+        }
+
+        const base64Pdf = this.extraerBase64Pdf(pdf);
+
+        if (base64Pdf) {
+          this.pdfBlobUrl = this.toBlob(base64Pdf);
+          this.pdfSrc = this.pdfBlobUrl;
         } else {
-          this.error = 'Ocurrió un error al cargar la información.';
+          this.pdfSrc = null;
         }
 
         this.cargando = false;
+        this.cdr.detectChanges();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al cargar comprobante:', err);
+        this.error = this.obtenerMensajeError(err);
+        this.cargando = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
-  procesarDocumentos(docs: FacturaDocumentoResponse): void {
-    if (docs.pdfBase64) {
-      this.pdfBlobUrl = this.base64ToBlobUrl(docs.pdfBase64, 'application/pdf');
-      this.pdfSrc = this.pdfBlobUrl;
+  private extraerBase64Pdf(res: any): string {
+    if (!res) {
+      return '';
     }
 
-    if (docs.xmlBase64) {
-      this.xmlBlobUrl = this.base64ToBlobUrl(docs.xmlBase64, 'application/xml');
+    if (typeof res === 'string') {
+      return res.trim();
     }
+
+    return (
+      res.pdfBase64 ||
+      res.base64 ||
+      res.archivoBase64 ||
+      res.fileBase64 ||
+      res.data ||
+      res.pdf ||
+      ''
+    ).trim();
   }
 
-  base64ToBlobUrl(base64: string, mimeType: string): string {
-    const cleanBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
-
-    const byteCharacters = atob(cleanBase64);
-    const byteNumbers = new Array(byteCharacters.length);
-
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
+  private extraerBase64Xml(res: any): string {
+    if (!res) {
+      return '';
     }
 
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: mimeType });
+    if (typeof res === 'string') {
+      return res.trim();
+    }
 
-    return URL.createObjectURL(blob);
+    return (
+      res.xmlBase64 ||
+      res.base64 ||
+      res.archivoBase64 ||
+      res.fileBase64 ||
+      res.data ||
+      res.xml ||
+      ''
+    ).trim();
+  }
+
+  private obtenerMensajeError(err: HttpErrorResponse): string {
+    const backendMessage =
+      err?.error?.message ||
+      err?.error?.mensaje ||
+      err?.error?.title ||
+      '';
+
+    if (err.status === 401 || err.status === 403) {
+      return 'Token inválido o expirado';
+    }
+
+    if (err.status === 400) {
+      if (
+        typeof backendMessage === 'string' &&
+        /token|jwt|unauthorized|forbidden|inv[aá]lido|expired|expirado/i.test(backendMessage)
+      ) {
+        return 'Token inválido o expirado';
+      }
+
+      return 'Solicitud inválida al consultar el comprobante';
+    }
+
+    if (err.status === 404) {
+      return 'No se encontró el comprobante solicitado';
+    }
+
+    if (err.status === 0) {
+      return 'No se pudo conectar con el backend';
+    }
+
+    if (typeof backendMessage === 'string' && backendMessage.trim()) {
+      return backendMessage;
+    }
+
+    return 'Error al cargar comprobante';
+  }
+
+  private toBlob(base64: string): string {
+    const clean = base64.replace(/^data:application\/pdf;base64,/, '');
+    const bytes = atob(clean);
+    const arr = new Uint8Array(bytes.length);
+
+    for (let i = 0; i < bytes.length; i++) {
+      arr[i] = bytes.charCodeAt(i);
+    }
+
+    return URL.createObjectURL(new Blob([arr], { type: 'application/pdf' }));
   }
 
   descargarPdf(): void {
-    if (!this.pdfBlobUrl) return;
-    this.descargarArchivo(
-      this.pdfBlobUrl,
-      `factura-${this.factura?.numero ?? this.facturaId}.pdf`
-    );
-  }
+    if (!isPlatformBrowser(this.platformId) || !this.pdfBlobUrl) {
+      return;
+    }
 
-  descargarXml(): void {
-    if (!this.xmlBlobUrl) return;
-    this.descargarArchivo(
-      this.xmlBlobUrl,
-      `factura-${this.factura?.numero ?? this.facturaId}.xml`
-    );
-  }
-
-  descargarArchivo(url: string, nombre: string): void {
     const a = document.createElement('a');
-    a.href = url;
-    a.download = nombre;
+    a.href = this.pdfBlobUrl;
+    a.download = `${this.factura?.noComprobante || 'comprobante'}.pdf`;
     a.click();
   }
 
+  descargarXml(): void {
+    if (!isPlatformBrowser(this.platformId) || !this.tokenDesdeUrl) {
+      return;
+    }
+
+    this.service.obtenerXml(this.tokenDesdeUrl).subscribe({
+      next: (res: any) => {
+        const xmlBase64 = this.extraerBase64Xml(res);
+
+        let xml = '';
+        if (xmlBase64) {
+          xml = atob(xmlBase64.replace(/^data:application\/xml;base64,/, ''));
+        } else {
+          xml = typeof res === 'string' ? res : JSON.stringify(res);
+        }
+
+        const blob = new Blob([xml], { type: 'application/xml' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.factura?.noComprobante || 'comprobante'}.xml`;
+        a.click();
+
+        URL.revokeObjectURL(url);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error al descargar XML:', err);
+        this.error = this.obtenerMensajeError(err);
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   abrirLogin(): void {
-    window.open(this.loginUrl, '_blank', 'noopener,noreferrer');
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    window.open(this.loginUrl, '_blank');
   }
 
   abrirPortal(): void {
-    window.open(this.portalUrl, '_blank', 'noopener,noreferrer');
-  }
-
-  reintentar(): void {
-    this.limpiarUrls();
-    this.cargarFactura();
-  }
-
-  limpiarUrls(): void {
-    if (this.pdfBlobUrl) {
-      URL.revokeObjectURL(this.pdfBlobUrl);
-      this.pdfBlobUrl = null;
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
     }
 
-    if (this.xmlBlobUrl) {
-      URL.revokeObjectURL(this.xmlBlobUrl);
-      this.xmlBlobUrl = null;
-    }
+    window.open(this.portalUrl, '_blank');
   }
 
   ngOnDestroy(): void {
-    this.limpiarUrls();
+    if (isPlatformBrowser(this.platformId) && this.pdfBlobUrl) {
+      URL.revokeObjectURL(this.pdfBlobUrl);
+    }
   }
 }

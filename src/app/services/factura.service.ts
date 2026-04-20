@@ -1,52 +1,53 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface FacturaInfoResponse {
-  numero: string;
-  estado: string;
-  emisor: string;
-  ruc: string;
+  emisor?: string;
+  ruc?: string;
+  razonSocial?: string;
+  receptor?: string;
+  correo?: string;
+  fechaEmision?: string;
+  tipoComprobante?: string;
+  noComprobante?: string;
+  estadoComprobante?: string;
   nombreComercial?: string;
-  receptor: string;
-  correo: string;
-  fechaEmision: string;
-}
-
-export interface FacturaDocumentoResponse {
-  pdfBase64: string;
-  xmlBase64?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class FacturaService {
-  private readonly apiUrl = environment.apiUrl;
-  private readonly token = environment.token;
+  private apiUrl = environment.apiUrl.replace(/\/$/, '');
 
   constructor(private http: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${this.token}`
-    });
+  private body(token: string) {
+    return {
+      tokenRequest: token
+    };
   }
 
-  // 1
-  obtenerInfoFactura(id: string): Observable<FacturaInfoResponse> {
-    return this.http.get<FacturaInfoResponse>(
-      `${this.apiUrl}/facturas/${id}`,
-      { headers: this.getHeaders() }
+  obtenerInfoFactura(token: string): Observable<FacturaInfoResponse> {
+    return this.http.post<FacturaInfoResponse>(
+      `${this.apiUrl}/api/v1/comprobantes/info`,
+      this.body(token)
     );
   }
 
-  // 2
-  obtenerDocumentosFactura(id: string): Observable<FacturaDocumentoResponse> {
-    return this.http.get<FacturaDocumentoResponse>(
-      `${this.apiUrl}/facturas/${id}/documentos`,
-      { headers: this.getHeaders() }
+  obtenerPdf(token: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/api/v1/comprobantes/pdf`,
+      this.body(token)
+    );
+  }
+
+  obtenerXml(token: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/api/v1/comprobantes/xml`,
+      this.body(token)
     );
   }
 }

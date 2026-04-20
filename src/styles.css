@@ -1,14 +1,310 @@
+@import "tailwindcss";
+
 * {
   box-sizing: border-box;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
+  height: 100%;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
   background: #f3f3f3;
+}
+
+ngx-extended-pdf-viewer {
+  --body-bg-color: #767b8c;
+  --toolbar-bg-color: #666b79;
+  --sidebar-bg-color: #767b8c;
+  --main-menu-bg-color: #666b79;
+  --viewer-container-height: 740px;
+  display: block;
+  background: #767b8c !important;
+}
+
+ngx-extended-pdf-viewer .toolbar,
+ngx-extended-pdf-viewer .toolbarContainer,
+ngx-extended-pdf-viewer #toolbarContainer,
+ngx-extended-pdf-viewer #toolbarViewer,
+ngx-extended-pdf-viewer #toolbarViewerContainer {
+  background: #5E626F !important;
+  background-color: #5E626F !important;
+  border-bottom: none !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  display: flex;
+  align-items: center;
+}
+
+ngx-extended-pdf-viewer .toolbarButton,
+ngx-extended-pdf-viewer .toolbar button,
+ngx-extended-pdf-viewer .dropdownToolbarButton,
+ngx-extended-pdf-viewer .secondaryToolbarButton,
+ngx-extended-pdf-viewer #toolbarViewer button,
+ngx-extended-pdf-viewer #toolbarViewerRight button,
+ngx-extended-pdf-viewer #toolbarViewerLeft button,
+ngx-extended-pdf-viewer button,
+ngx-extended-pdf-viewer [role="button"] {
+  color: #e5e7eb !important;
+  fill: #e5e7eb !important;
+  opacity: 1 !important;
+}
+
+ngx-extended-pdf-viewer .toolbarButton::before,
+ngx-extended-pdf-viewer .secondaryToolbarButton::before,
+ngx-extended-pdf-viewer .dropdownToolbarButton::before,
+ngx-extended-pdf-viewer #toolbarViewer button::before,
+ngx-extended-pdf-viewer #toolbarViewerRight button::before,
+ngx-extended-pdf-viewer #toolbarViewerLeft button::before {
+  color: #e5e7eb !important;
+  fill: #e5e7eb !important;
+  opacity: 1 !important;
+}
+
+ngx-extended-pdf-viewer svg,
+ngx-extended-pdf-viewer svg path,
+ngx-extended-pdf-viewer svg use,
+ngx-extended-pdf-viewer .toolbar svg,
+ngx-extended-pdf-viewer .toolbar svg path,
+ngx-extended-pdf-viewer .toolbar svg use {
+  fill: #e5e7eb !important;
+  color: #e5e7eb !important;
+  stroke: #e5e7eb !important;
+  opacity: 1 !important;
+}
+
+ngx-extended-pdf-viewer .toolbarButton:hover,
+ngx-extended-pdf-viewer .toolbar button:hover,
+ngx-extended-pdf-viewer button:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+ngx-extended-pdf-viewer .pdfViewer,
+ngx-extended-pdf-viewer #viewerContainer,
+ngx-extended-pdf-viewer .mainContainer,
+ngx-extended-pdf-viewer .viewerContainer,
+ngx-extended-pdf-viewer #outerContainer,
+ngx-extended-pdf-viewer #mainContainer {
+  background: #6F7281 !important;
+  background-color: #6F7281 !important;
+}
+
+ngx-extended-pdf-viewer #sidebarContainer,
+ngx-extended-pdf-viewer .sidebarContent,
+ngx-extended-pdf-viewer .thumbnailSidebar,
+ngx-extended-pdf-viewer #toolbarSidebar {
+  background: #767b8c !important;
+  background-color: #767b8c !important;
+}
+
+ngx-extended-pdf-viewer .page {
+  box-shadow: none !important;
+}
+
+ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
+  background: #8b90a0;
+}
+
+
+/* CELL  VERIFICAR */
+@media (max-width: 768px) {
+  main {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  h1 {
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+  }
+
+  .min-h-screen header .mx-auto {
+    min-height: 74px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .min-h-screen header img {
+    height: 46px !important;
+  }
+
+  .min-h-screen header button {
+    min-width: 140px !important;
+    height: 34px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    font-size: 13px !important;
+  }
+
+  section > div,
+  section > div > div,
+  section > div > p {
+    word-break: break-word;
+  }
+
+  .flex.flex-wrap.items-center.justify-between.gap-\[18px\].rounded-\[12px\].border.border-\[\#d8dde3\].bg-white.px-\[22px\].py-\[18px\] {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    gap: 12px !important;
+  }
+
+  .flex.items-center.gap-\[14px\] {
+    align-items: flex-start !important;
+  }
+
+  .flex.flex-col .text-\[20px\] {
+    font-size: 16px !important;
+  }
+
+  .flex.flex-col .text-\[15px\] {
+    font-size: 13px !important;
+  }
+
+  .mb-4.flex.flex-wrap.gap-2 {
+    flex-direction: column !important;
+  }
+
+  .mb-4.flex.flex-wrap.gap-2 button {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  ngx-extended-pdf-viewer {
+    --viewer-container-height: 380px;
+  }
+
+  .h-\[450px\] {
+    height: 380px !important;
+  }
+
+  .px-\[22px\] {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .pt-\[18px\] {
+    padding-top: 14px !important;
+  }
+
+  .pb-\[22px\] {
+    padding-bottom: 14px !important;
+  }
+
+  .my-\[6px\].text-\[16px\].leading-\[1\.6\] {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+
+  .text-\[14px\] {
+    font-size: 12px !important;
+  }
+}
+
+/* CDArk */
+
+@media (prefers-color-scheme: dark) {
+
+  html,
+  body {
+    background: #0f172a;
+  }
+
+  app-root {
+    display: block;
+    min-height: 100vh;
+    background: #0f172a;
+  }
+
+  body {
+    background: #0f172a;
+  }
+
+  .bg-white {
+    background-color: #1e293b !important;
+  }
+
+  .bg-\[\#f3f3f3\] {
+    background-color: #0f172a !important;
+  }
+
+  .border {
+    border-color: #334155 !important;
+  }
+
+  .border-\[\#d9dde2\],
+  .border-\[\#d8dde3\],
+  .border-\[\#e5e7eb\] {
+    border-color: #334155 !important;
+  }
+
+  .text-\[\#111111\] {
+    color: #e2e8f0 !important;
+  }
+
+  .text-\[\#333333\] {
+    color: #cbd5e1 !important;
+  }
+
+  .text-\[\#4b5563\] {
+    color: #94a3b8 !important;
+  }
+
+  .text-\[\#9d9d9d\],
+  .text-\[\#9ca3af\] {
+    color: #64748b !important;
+  }
+
+  header {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+  }
+
+  button.bg-white {
+    background-color: #334155 !important;
+    color: #e2e8f0 !important;
+    border-color: #475569 !important;
+  }
+
+  button.bg-white:hover {
+    background-color: #475569 !important;
+  }
+
+  .bg-\[\#fafafa\] {
+    background-color: #1e293b !important;
+  }
+
+  ngx-extended-pdf-viewer {      
+    --body-bg-color: #1e293b;
+    --toolbar-bg-color: #0f172a;
+    --sidebar-bg-color: #1e293b;
+    --main-menu-bg-color: #0f172a;
+  }
+
+  .bg-\[\#eff6ff\] {
+    background-color: #1e3a8a !important;
+    color: #bfdbfe !important;
+  }
+
+  .bg-\[\#fef2f2\] {
+    background-color: #7f1d1d !important;
+    color: #fecaca !important;
+  }
+
+  .bg-\[\#fff7ed\] {
+    background-color: #7c2d12 !important;
+    color: #fed7aa !important;
+  }
+
+  .flex.flex-col .text-\[20px\] {
+    color: #e2e8f0 !important;
+  }
+
+  .flex.flex-col .text-\[15px\] {
+    color: #94a3b8 !important;
+  }
 }
