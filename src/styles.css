@@ -267,7 +267,7 @@ ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
     background-color: #1e293b !important;
   }
 
-  ngx-extended-pdf-viewer {
+  ngx-extended-pdf-viewer {      /* VERIFICAR UNA VEZ FUNCIONE */
     --body-bg-color: #1e293b;
     --toolbar-bg-color: #0f172a;
     --sidebar-bg-color: #1e293b;

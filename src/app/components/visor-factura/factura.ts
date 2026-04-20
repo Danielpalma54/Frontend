@@ -48,21 +48,7 @@ export class FacturaComponent implements OnInit, OnDestroy {
     this.cargarFactura();
   }
 
-  reintentar(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    this.tokenDesdeUrl = this.obtenerTokenDesdeUrl();            //borrar funcion
-   
-    if (!this.tokenDesdeUrl) {
-      this.error = 'No se recibió token en la URL';
-      this.cdr.detectChanges();
-      return;
-    }
-
-    this.cargarFactura();
-  }
+//BORRAR METODO REINTENTAR SI NO SE USA
 
   private obtenerTokenDesdeUrl(): string {
     if (!isPlatformBrowser(this.platformId)) {
