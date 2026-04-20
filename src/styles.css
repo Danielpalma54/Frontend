@@ -209,6 +209,17 @@ ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
 
 @media (prefers-color-scheme: dark) {
 
+  html,
+  body {
+    background: #0f172a;
+  }
+
+  app-root {
+    display: block;
+    min-height: 100vh;
+    background: #0f172a;
+  }
+
   body {
     background: #0f172a;
   }
@@ -267,7 +278,7 @@ ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
     background-color: #1e293b !important;
   }
 
-  ngx-extended-pdf-viewer {      /* VERIFICAR UNA VEZ FUNCIONE */
+  ngx-extended-pdf-viewer {      
     --body-bg-color: #1e293b;
     --toolbar-bg-color: #0f172a;
     --sidebar-bg-color: #1e293b;
@@ -287,5 +298,13 @@ ngx-extended-pdf-viewer ::-webkit-scrollbar-thumb {
   .bg-\[\#fff7ed\] {
     background-color: #7c2d12 !important;
     color: #fed7aa !important;
+  }
+
+  .flex.flex-col .text-\[20px\] {
+    color: #e2e8f0 !important;
+  }
+
+  .flex.flex-col .text-\[15px\] {
+    color: #94a3b8 !important;
   }
 }

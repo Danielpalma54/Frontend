@@ -140,8 +140,8 @@
         <div *ngIf="pdfSrc; else noPdf" class="h-[450px] w-full overflow-hidden rounded-[11px] ">
           <ngx-extended-pdf-viewer
             [src]="pdfSrc"
-            [height]="'100%'"
-            [zoom]="'page-width'"
+            [height]="'calc(100vh - 320px)'"
+            [zoom]="'auto'"
             [showToolbar]="true"
             [showSidebarButton]="true"
             [showFindButton]="true"

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://4n3f4rgp-7132.brs.devtunnels.ms',
+  apiUrl: 'https://4n3f4rgp-7132.brs.devtunnels.ms', //CAMBIAR URL BACKEND
   loginUrl: 'https://www.facturasintuitosa.com/',
   portalUrl: 'https://www.facturasintuitosa.com/'
 };
