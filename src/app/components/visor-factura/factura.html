@@ -56,7 +56,6 @@
         *ngIf="error && !cargando"
         class="m-[20px] flex flex-wrap items-center justify-between gap-3 rounded-[12px] border border-[#fecaca] bg-[#fef2f2] p-[18px] text-[16px] text-[#b91c1c]">
         <p class="m-0">{{ error }}</p>
-        <!-- BOTON REINTENTAR -->
       </div>
 
       <div *ngIf="!cargando && !error && factura" class="px-[22px] pb-[22px] pt-[18px]">
@@ -170,7 +169,7 @@
                 Accede al historial de tus comprobantes recibidos
               </div>
 
-              <div class="mt-[6px] text-[15px] leading-[1.4] text-[#4b5563]">
+              <div class="mt-[6px] text-[15px] leading-[1.4] text-[#4b5563]">          <!-- VERIFICAR SI ES EL COLOR CORRECTO -->
                 ✅ En un clic filtrar y descargar PDF / XML cuando lo necesites
               </div>
             </div>
